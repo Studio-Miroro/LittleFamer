@@ -20,9 +20,6 @@ var ui: Dictionary
 func add_ui(object: PackedScene, only: bool = true) -> Control:
 	var node: Control = object.instantiate()
 
-	if !(get_tree().current_scene is Node2D):
-		return null
-
 	if only:
 		if !ui.has(node.name):
 			ui[node.name] = node
