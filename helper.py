@@ -1,9 +1,10 @@
 
 #* Небольшой вспомагательный python-скрипт
 #* ---------------------------------------
-#* format    - Форматирует .gd файлы
-#* linter    - Проверяет синтаксические ошибки
-#* clear     - Очищает временные Godot
+#* format - Форматирует .gd файлы
+#* linter - Проверяет синтаксические ошибки
+#* clear  - Очищает временные Godot
+#* ---------------------------------------
 
 from helper.format  import format
 from helper.linter  import linter
@@ -11,8 +12,8 @@ from helper.clear   import clear
 
 def help() -> None:
     print("---- Project Helper ----")
-    print("\t1. format\t - Formatting GDscript and C++ files")
-    print("\t2. linter\t - Liting GDscript and C++ files")
+    print("\t1. format\t - Formatting GDscript files")
+    print("\t2. linter\t - Liting GDscript files")
     print("\t3. clear\t - Clering trash")
     print("\t0. (e)xit\t - Exit")
 
