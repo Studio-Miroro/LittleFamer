@@ -12,8 +12,6 @@ const TEXTURES: Dictionary = {
 	3: preload("res://assets/resources/buildings/mailbox/winter.png")
 }
 
-var mouse_entered: bool = false
-
 
 func _ready() -> void:
 	if !is_instance_valid(cycle):
@@ -24,49 +22,41 @@ func _ready() -> void:
 		sprite.texture = TEXTURES[cycle.season_id]
 
 	if collision:
+		collision.input_pickable = true
+		collision.input_event.connect(
+			func(_viewport: Node, event: InputEvent, _index: int) -> void:
+				if (
+					!build.buildings.has("Grid")
+					&& event is InputEventMouseButton
+					&& event.pressed
+					&& !UIManager.blur.state
+					&& event.button_index == MOUSE_BUTTON_LEFT
+				):
+					UIManager.remove_ui(UIManager.get_ui(UIManager.MENUS.HUD.get_state().get_node_name(0)))
+					UIManager.add_ui(UIManager.MENUS.MAILBOX)
+
+					if sprite.material:
+						sprite.material.set_shader_parameter("highligth", false)
+					UIManager.cursor.set_cursor(UIManager.cursor.STATES.DEFAULT)
+		)
+
 		collision.mouse_entered.connect(_collision_mouse_entered)
 		collision.mouse_exited.connect(_collision_mouse_exited)
-
-
-func _input(event: InputEvent) -> void:
-	if (
-		event is InputEventMouseButton
-		&& mouse_entered
-		&& event.pressed
-		&& !UIManager.blur.state
-		&& event.button_index == MOUSE_BUTTON_LEFT
-	):
-		UIManager.remove_ui(UIManager.get_ui(UIManager.MENUS.HUD.get_state().get_node_name(0)))
-		UIManager.add_ui(UIManager.MENUS.MAILBOX)
-
-		if sprite.material:
-			sprite.material.set_shader_parameter("highligth", false)
-
-		if UIManager.cursor:
-			UIManager.cursor.set_cursor(UIManager.cursor.STATES.DEFAULT)
 
 
 func _collision_mouse_entered() -> void:
 	if !UIManager.get_ui("HUD"):
 		return
 
-	self.mouse_entered = true
-
 	if sprite.material:
 		sprite.material.set_shader_parameter("highligth", true)
-
-	if UIManager.cursor:
-		UIManager.cursor.set_cursor(UIManager.cursor.STATES.ACTIVE)
+	UIManager.cursor.set_cursor(UIManager.cursor.STATES.ACTIVE)
 
 
 func _collision_mouse_exited() -> void:
-	self.mouse_entered = false
-
 	if !UIManager.get_ui("HUD"):
 		return
 
 	if sprite.material:
 		sprite.material.set_shader_parameter("highligth", false)
-
-	if UIManager.cursor:
-		UIManager.cursor.set_cursor(UIManager.cursor.STATES.DEFAULT)
+	UIManager.cursor.set_cursor(UIManager.cursor.STATES.DEFAULT)
