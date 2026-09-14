@@ -49,13 +49,13 @@ func _ready():
 		var storage_sprite: Sprite2D = storage.get_node("Sprite2D")
 
 		if house_sprite && house_sprite is Sprite2D:
-			shadow.shadow_add(HOUSE_SHADOW, house.position + house_sprite.position)
+			shadow.add_shadow(HOUSE_SHADOW, house.position + house_sprite.position)
 
 		if mailbox_sprite && house_sprite is Sprite2D:
-			shadow.shadow_add(MAILBOX_SHADOW, mailbox.position + mailbox_sprite.position)
+			shadow.add_shadow(MAILBOX_SHADOW, mailbox.position + mailbox_sprite.position)
 
 		if storage_sprite && house_sprite is Sprite2D:
-			shadow.shadow_add(STORAGE_SHADOW, storage.position + storage_sprite.position)
+			shadow.add_shadow(STORAGE_SHADOW, storage.position + storage_sprite.position)
 
 
 func _input(event: InputEvent) -> void:
@@ -111,12 +111,6 @@ func build_add(node: Node2D, shadow_texture: CompressedTexture2D, position: Vect
 
 	var sprite: Node = building.get_node("Sprite2D")
 	if sprite && sprite is Sprite2D:
-		self.shadow.shadow_add(shadow_texture, building.position + sprite.position)
+		self.shadow.add_shadow(shadow_texture, building.position + sprite.position)
 
 	return building
-
-
-func build_remove(node: Node2D) -> bool:
-	var flag: bool = false
-
-	return flag

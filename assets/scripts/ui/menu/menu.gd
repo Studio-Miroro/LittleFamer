@@ -18,7 +18,6 @@ func _ready() -> void:
 	GameData.settings_load()
 	UIManager.cursor.set_cursor(UIManager.cursor.STATES.DEFAULT)
 	UIManager.blackout.blackout(false)
-
 	version.text = "v" + str(ProjectSettings.get_setting("application/config/version"))
 
 	_init_buttons()
@@ -55,7 +54,9 @@ func _init_buttons() -> void:
 	)
 
 	settings.pressed.connect(func() -> void: UIManager.add_ui(UIManager.MENUS.OPTIONS))
+
 	credits.pressed.connect(func() -> void: UIManager.add_ui(UIManager.MENUS.CREDITS))
+
 	exit.pressed.connect(func() -> void: get_tree().quit())
 
 	resume.pressed.connect(UIManager.button_pressed)

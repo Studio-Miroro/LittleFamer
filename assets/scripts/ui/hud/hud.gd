@@ -28,6 +28,7 @@ const ICONS: Dictionary = {
 
 var debug_mode: bool = true
 
+
 func _ready() -> void:
 	if !is_instance_valid(build):
 		printerr("BuildManager is NULL.")
@@ -69,7 +70,7 @@ func _init_debug() -> void:
 	set_process(true if debug_mode else false)
 
 
-func _update_datetime(days:int, hours:int, minuts:int) -> void:
+func _update_datetime(days: int, hours: int, minuts: int) -> void:
 	var time: String = str(hours) + ":" + str(minuts) + "0"
 	var date: String = tr("hud.date") + ": " + str(days)
 	self.timedate.text = time + "; " + date

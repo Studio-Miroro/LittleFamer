@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var cycle = get_tree().current_scene.cycle
+@onready var cycle: WorldCycle = get_tree().current_scene.cycle
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision: Area2D = $Collision
 
@@ -10,6 +10,7 @@ const TEXTURES: Dictionary = {
 	2: preload("res://assets/resources/buildings/well/autumn.png"),
 	3: preload("res://assets/resources/buildings/well/winter.png")
 }
+
 
 func _ready() -> void:
 	if !is_instance_valid(cycle):

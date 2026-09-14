@@ -19,10 +19,6 @@ func _ready() -> void:
 				UIManager.remove_ui(self)
 	)
 
-	open()
-
-
-func open() -> void:
 	UIManager.blur.blur(true)
 	anim.play("show")
 	self.visible = true
