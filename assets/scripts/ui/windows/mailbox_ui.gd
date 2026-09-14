@@ -185,15 +185,15 @@ func _read_letter(data: Dictionary, letter_id: int) -> void:
 	if data.has("items") && !data["items"].is_empty():
 		items_container.visible = true
 		for item in data["items"]:
-			var _content: Dictionary = Items.get_item(int(item))
+			var item_content: Dictionary = Items.get_item(int(item))
 			if (
 				data["items"][item].has("amount")
 				&& data["items"][item]["amount"] is int
 				&& data["items"][item]["amount"] > 0
-				&& _content.has("icon")
-				&& _content["icon"] is CompressedTexture2D
+				&& item_content.has("icon")
+				&& item_content["icon"] is CompressedTexture2D
 			):
-				items.add_child(_create_button_item(_content["icon"], data["items"][item]["amount"]))
+				items.add_child(_create_button_item(item_content["icon"], data["items"][item]["amount"]))
 
 	else:
 		items_container.visible = false
