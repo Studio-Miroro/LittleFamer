@@ -5,11 +5,13 @@ extends Control
 @onready var settings: Button = $Main/Container/SettingsButtonMargin/SettingsButton
 @onready var report: Button = $Main/Container/ReportBugButtonMargin/ReportBugButton
 @onready var exit: Button = $Main/Container/ExitButtonMargin/ExitButton
+@onready var version:Label = $Main/Container/GameVersionMargin/GameVersion
 
 
 func _ready() -> void:
 	_init_button()
 	self.visible = false
+	version.text = "v" + str(ProjectSettings.get_setting("application/config/version"))
 	anim.animation_finished.connect(
 		func(anim_name: StringName) -> void:
 			if anim_name != "show":
