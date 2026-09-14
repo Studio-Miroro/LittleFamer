@@ -11,21 +11,25 @@ func _ready() -> void:
 	self.self_modulate = SELF_MODULATE
 
 
-func add_shadow(texture: CompressedTexture2D, pos: Vector2i) -> Sprite2D:
+func add_shadow(texture: CompressedTexture2D, pos: Vector2i, offset: Vector2i = Vector2i(0, 0)) -> Node2D:
 	if !texture:
 		printerr("Texture is NULL.")
 		return
 
+	var parent: Node2D = Node2D.new()
 	var sprite: Sprite2D = Sprite2D.new()
+
 	sprite.texture = texture
-	sprite.set_position(pos)
-	self.add_child(sprite)
+	sprite.set_position(pos + offset)
+	parent.add_child(sprite)
+	self.add_child(parent)
 
-	return sprite
+	return parent
 
 
-func remove_shadow_by_position(pos: Vector2) -> void:
-	for node in self.get_children():
-		if pos == node.position:
-			self.remove_child(node)
-			node.queue_free()
+func remove_shadow(node: Node2D) -> void:
+	if !node:
+		return
+
+	self.remove_child(node)
+	node.queue_free()
