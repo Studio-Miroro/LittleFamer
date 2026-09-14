@@ -1,6 +1,5 @@
 class_name WorldCycle extends CanvasModulate
 
-@onready var cycle: WorldCycle = get_tree().current_scene.cycle
 @onready var tilemap: TileMap = get_tree().current_scene.tilemap
 @onready var nature: NatureManager = get_tree().current_scene.nature
 
@@ -28,28 +27,24 @@ var hours: int = 7
 var minuts: int = 0
 var day: int = 1
 
-var season_id: Season = Season.SPRING
+var season_id: Season = Season.SUMMER
 
-signal datetime_changed(days, hours, minuts)
+signal datetime_changed(days: int, hours: int, minuts: int)
 
 
 func _ready() -> void:
-	if !is_instance_valid(cycle):
-		printerr("World cycle is NULL.")
-		return
-
 	var timer: Timer = Timer.new()
 	timer.autostart = true
 	timer.one_shot = false
 	timer.wait_time = CYCLE_SPEED
-	timer.timeout.connect(_timeout)	
+	timer.timeout.connect(_timeout)
 	self.add_child(timer)
 
 
 func _timeout() -> void:
 	# -------------------------------
-	# Мне прям вообще не нравится 
-	# такой способ, но есть что есть. 
+	# Мне прям вообще не нравится
+	# такой способ, но есть что есть.
 	# -------------------------------
 
 	if self.minuts + 1 < MAX_MINUTE:
@@ -69,19 +64,18 @@ func _timeout() -> void:
 					Season.SPRING:
 						self.season_id = Season.SUMMER
 						tilemap.update_atlas(self.season_id)
-						nature.update_wind()
+
 					Season.SUMMER:
 						self.season_id = Season.AUTUMN
 						tilemap.update_atlas(self.season_id)
-						nature.update_wind()
+
 					Season.AUTUMN:
 						self.season_id = Season.WINTER
 						tilemap.update_atlas(self.season_id)
-						nature.update_wind()
+
 					Season.WINTER:
 						self.season_id = Season.SPRING
 						tilemap.update_atlas(self.season_id)
-						nature.update_wind()
 
 		else:
 			self.hours += 1
