@@ -1,6 +1,5 @@
 extends Node2D
 
-@onready var cycle = get_tree().current_scene.cycle
 @onready var cycle: WorldCycle = get_tree().current_scene.cycle
 @onready var collision: Area2D = $Collision
 @onready var sprite: Sprite2D = $Sprite2D
