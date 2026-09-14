@@ -5,7 +5,7 @@ extends Control
 @onready var settings: Button = $Main/Container/SettingsButtonMargin/SettingsButton
 @onready var report: Button = $Main/Container/ReportBugButtonMargin/ReportBugButton
 @onready var exit: Button = $Main/Container/ExitButtonMargin/ExitButton
-@onready var version:Label = $Main/Container/GameVersionMargin/GameVersion
+@onready var version: Label = $Main/Container/GameVersionMargin/GameVersion
 
 
 func _ready() -> void:
