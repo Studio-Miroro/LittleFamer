@@ -340,7 +340,6 @@ func add_nature_node(
 	collision.position = collision_pos
 	area.position.x += offset.x
 	area.position.y += offset.y
-
 	area.input_pickable = true
 	area.input_event.connect(
 		func(_viewport: Node, event: InputEvent, _index: int) -> void:

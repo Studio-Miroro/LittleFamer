@@ -59,11 +59,13 @@ func _action() -> void:
 	match mode:
 		build.GridModes.DESTROY:
 			for grid in self.get_children():
-				if tilemap.get_cell_source_id(layer_id, tilemap.local_to_map(grid.global_position)) != -1:
-					tilemap.set_cells_terrain_connect(layer_id, [tilemap.local_to_map(grid.global_position)], 0, -1)
+				if grid.texture == GRID_ERROR:
+					return
 
-				if layer_id == tilemap.Layers.NATURE:
-					nature.remove_nature_node(tilemap.local_to_map(grid.global_position))
+				if tilemap.get_cell_source_id(self.layer_id, tilemap.local_to_map(grid.global_position)) != -1:
+					tilemap.set_cells_terrain_connect(
+						self.layer_id, [tilemap.local_to_map(grid.global_position)], 0, -1
+					)
 
 		build.GridModes.FARMING:
 			var grid_positions: Array[Vector2i] = []
@@ -80,7 +82,6 @@ func _action() -> void:
 
 			if !grid_positions.is_empty():
 				tilemap.set_cells_terrain_connect(tilemap.Layers.FARMLAND, grid_positions, 0, tilemap.Terrains.FARMING)
-
 				SoundManager.play_sound("farming/farming")
 
 		build.GridModes.FERTILIZER:
@@ -140,10 +141,13 @@ func _action() -> void:
 
 				SoundManager.play_sound("building/build")
 
+		build.GridModes.TERRAIN:
+			print("Hello, World!")
+
 
 func _collision_check() -> void:
 	if !is_instance_valid(build) && !is_instance_valid(tilemap):
-		layer_id = -1
+		self.layer_id = -1
 		return
 
 	for grid in self.get_children():
@@ -157,7 +161,7 @@ func _collision_check() -> void:
 					!= -1
 				):
 					grid.texture = GRID_NORMAL
-					layer_id = tilemap.Layers.WATERING
+					self.layer_id = tilemap.Layers.WATERING
 					return
 
 				if (
@@ -165,17 +169,17 @@ func _collision_check() -> void:
 					!= -1
 				):
 					grid.texture = GRID_NORMAL
-					layer_id = tilemap.Layers.FARMLAND
+					self.layer_id = tilemap.Layers.FARMLAND
 					return
 
 				if tilemap.get_cell_source_id(tilemap.Layers.NATURE, tilemap.local_to_map(grid.global_position)) != -1:
 					grid.texture = GRID_NORMAL
-					layer_id = tilemap.Layers.NATURE
+					self.layer_id = tilemap.Layers.NATURE
 					return
 
 				if tilemap.get_cell_source_id(tilemap.Layers.ROAD, tilemap.local_to_map(grid.global_position)) != -1:
 					grid.texture = GRID_NORMAL
-					layer_id = tilemap.Layers.ROAD
+					self.layer_id = tilemap.Layers.ROAD
 
 			BuildManager.GridModes.FARMING:
 				if (
@@ -193,7 +197,7 @@ func _collision_check() -> void:
 					grid.texture = GRID_NORMAL
 
 			# 	BuildManager.GridModes.FERTILIZER:
-			# 		layer_id = 1
+			# 		self.layer_id = 1
 
 			BuildManager.GridModes.WATERING:
 				if (
@@ -209,7 +213,7 @@ func _collision_check() -> void:
 					grid.texture = GRID_NORMAL
 
 			# 	BuildManager.GridModes.HARVESTING:
-			# 		layer_id = 1
+			# 		self.layer_id = 1
 
 			BuildManager.GridModes.BUILD:
 				if (
@@ -233,4 +237,4 @@ func _collision_check() -> void:
 					grid.texture = GRID_NORMAL
 
 			_:
-				layer_id = -1
+				self.layer_id = -1
